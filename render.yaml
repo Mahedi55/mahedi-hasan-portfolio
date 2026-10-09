@@ -2,9 +2,9 @@ services:
   - type: web
     name: mahedi-hasan-portfolio
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
-    preDeployCommand: python manage.py migrate && python manage.py seed_portfolio
-    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    startCommand: python manage.py migrate --noinput && python manage.py seed_portfolio && python manage.py bootstrap_portfolio_admin && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
     healthCheckPath: /
     envVars:
       - key: DJANGO_DEBUG
@@ -14,11 +14,10 @@ services:
       - key: DJANGO_ALLOWED_HOSTS
         value: .onrender.com
       - key: DATABASE_URL
-        fromDatabase:
-          name: mahedi-hasan-portfolio-db
-          property: connectionString
-
-databases:
-  - name: mahedi-hasan-portfolio-db
-    databaseName: portfolio
-    user: portfolio
+        sync: false
+      - key: PORTFOLIO_ADMIN_USERNAME
+        sync: false
+      - key: PORTFOLIO_ADMIN_EMAIL
+        sync: false
+      - key: PORTFOLIO_ADMIN_PASSWORD
+        sync: false

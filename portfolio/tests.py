@@ -1,4 +1,9 @@
+import os
+from unittest.mock import patch
+
+from django.contrib.auth import get_user_model
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import TestCase, override_settings
 
 from .models import PortfolioProfile, Publication
@@ -39,3 +44,50 @@ class PortfolioHomeTests(TestCase):
         response = self.client.get("/admin/login/")
 
         self.assertEqual(response.status_code, 200)
+
+
+class BootstrapPortfolioAdminTests(TestCase):
+    environment_keys = (
+        "PORTFOLIO_ADMIN_USERNAME",
+        "PORTFOLIO_ADMIN_EMAIL",
+        "PORTFOLIO_ADMIN_PASSWORD",
+    )
+
+    def test_creates_admin_once_without_resetting_password(self):
+        env = {
+            "PORTFOLIO_ADMIN_USERNAME": "portfolio-owner",
+            "PORTFOLIO_ADMIN_EMAIL": "owner@example.com",
+            "PORTFOLIO_ADMIN_PASSWORD": "A-long-unique-passphrase-for-portfolio-2026!",
+        }
+
+        with patch.dict(os.environ, env):
+            call_command("bootstrap_portfolio_admin", verbosity=0)
+            os.environ["PORTFOLIO_ADMIN_PASSWORD"] = "A-different-long-passphrase-2026!"
+            call_command("bootstrap_portfolio_admin", verbosity=0)
+
+        user = get_user_model().objects.get(username="portfolio-owner")
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(
+            user.check_password("A-long-unique-passphrase-for-portfolio-2026!")
+        )
+
+    def test_requires_credentials_until_an_admin_exists(self):
+        with patch.dict(os.environ, {}, clear=False):
+            for key in self.environment_keys:
+                os.environ.pop(key, None)
+
+            with self.assertRaises(CommandError):
+                call_command("bootstrap_portfolio_admin", verbosity=0)
+
+    def test_missing_bootstrap_credentials_are_safe_after_admin_creation(self):
+        user_model = get_user_model()
+        user_model.objects.create_superuser(
+            username="existing-owner",
+            email="existing@example.com",
+            password="A-long-unique-passphrase-for-existing-owner-2026!",
+        )
+
+        with patch.dict(os.environ, {}, clear=False):
+            for key in self.environment_keys:
+                os.environ.pop(key, None)
+            call_command("bootstrap_portfolio_admin", verbosity=0)
