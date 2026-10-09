@@ -1,0 +1,173 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ profile.name }} — {{ profile.title }} at {{ profile.institution }}, working in computer vision and multimodal AI.">
+  <meta name="theme-color" content="#101d2a">
+  <title>{{ profile.name }} | {{ profile.title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'portfolio/site.css' %}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#home" aria-label="{{ profile.name }}, home"><span class="brand-mark">MH</span><span>{{ profile.name }}</span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+        <a href="#about">About</a><a href="#research">Research</a><a href="#experience">Experience</a>
+        <a href="#publications">Publications</a><a href="#contact" class="nav-contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero section-shell" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> {{ profile.location }} <span class="eyebrow-divider">/</span> Academic &amp; Researcher</p>
+        <h1>{{ profile.name }}<span class="name-period">.</span></h1>
+        <p class="hero-role">{{ profile.title }}</p>
+        <p class="hero-institution">{{ profile.department }}<br>{{ profile.institution }} · {{ profile.location }}</p>
+        <p class="hero-summary">{{ profile.biography }}</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#research">Explore my work <span aria-hidden="true">↗</span></a>
+          <a class="button button-quiet" href="mailto:{{ profile.email }}">Get in touch</a>
+        </div>
+        <div class="social-links" aria-label="Professional profiles">
+          {% if profile.github_url %}<a href="{{ profile.github_url }}" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>{% endif %}
+          {% if profile.linkedin_url %}<a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>{% endif %}
+          {% if profile.orcid_url %}<a href="{{ profile.orcid_url }}" target="_blank" rel="noopener noreferrer">ORCID <span aria-hidden="true">↗</span></a>{% endif %}
+          {% if profile.scholar_url %}<a href="{{ profile.scholar_url }}" target="_blank" rel="noopener noreferrer">Google Scholar <span aria-hidden="true">↗</span></a>{% endif %}
+        </div>
+      </div>
+      <aside class="hero-aside" aria-label="Research focus">
+        <div class="focus-card">
+          <p class="card-kicker">CURRENT FOCUS</p>
+          <div class="focus-art" aria-hidden="true"><span class="focus-orbit orbit-one"></span><span class="focus-orbit orbit-two"></span><span class="focus-core">AI</span><span class="focus-node node-one"></span><span class="focus-node node-two"></span><span class="focus-node node-three"></span></div>
+          <h2>Human-centered<br>intelligent systems</h2>
+          <p>Building practical, interpretable AI for people, places, and real-world challenges.</p>
+          <a href="#research" class="text-link">Research interests <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-note"><span class="note-line"></span><span>Teaching · Research · Mentorship</span></div>
+      </aside>
+    </section>
+
+    <section class="section section-muted" id="about">
+      <div class="section-shell two-column">
+        <div class="section-heading">
+          <p class="eyebrow">01 / ABOUT</p>
+          <h2>Research with<br><span>real-world purpose.</span></h2>
+        </div>
+        <div class="about-content">
+          <p>{{ profile.biography }}</p>
+          <div class="interest-list">
+            {% for interest in profile.interests %}<span class="interest-chip">{{ interest }}</span>{% endfor %}
+          </div>
+          <div class="education-block">
+            <h3>Education</h3>
+            {% for item in education %}
+            <article class="education-item">
+              <div><h4>{{ item.degree }}</h4><p>{{ item.institution }} · {{ item.location }}</p>{% if item.result %}<p class="muted-copy">{{ item.result }}</p>{% endif %}{% if item.thesis %}<p class="muted-copy"><strong>Thesis:</strong> {{ item.thesis }}</p>{% endif %}</div>
+              <span class="date-label">{{ item.period }}</span>
+            </article>
+            {% empty %}<p class="muted-copy">Education details will be added soon.</p>{% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-shell" id="research">
+      <div class="section-heading section-heading-wide">
+        <div><p class="eyebrow">02 / RESEARCH</p><h2>Selected research</h2></div>
+        <p class="section-intro">Research projects and supervision focused on robust, useful, and responsible AI.</p>
+      </div>
+      <div class="project-grid">
+        {% for project in projects %}
+        <article class="project-card">
+          <div class="project-meta"><span>{{ project.category }}</span><span>{{ project.period }}</span></div>
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.description }}</p>
+          {% if project.result %}<p class="project-result">{{ project.result }}</p>{% endif %}
+          {% if project.outcome %}<span class="outcome-tag">{{ project.outcome }}</span>{% endif %}
+        </article>
+        {% empty %}<p class="muted-copy">Research projects will be added soon.</p>{% endfor %}
+      </div>
+    </section>
+
+    <section class="section section-dark" id="experience">
+      <div class="section-shell">
+        <div class="section-heading section-heading-wide">
+          <div><p class="eyebrow eyebrow-light">03 / EXPERIENCE</p><h2>Teaching &amp; leadership</h2></div>
+          <p class="section-intro">Supporting students through thoughtful teaching, research guidance, and mentorship.</p>
+        </div>
+        <div class="timeline">
+          {% for item in experiences %}
+          <article class="timeline-item">
+            <div class="timeline-date">{{ item.period }}</div>
+            <div class="timeline-content">
+              <p class="timeline-org">{{ item.organization }} · {{ item.location }}</p>
+              <h3>{{ item.role }}</h3><p>{{ item.summary }}</p>
+              {% if item.highlight_items %}<ul>{% for highlight in item.highlight_items %}<li>{{ highlight }}</li>{% endfor %}</ul>{% endif %}
+            </div>
+          </article>
+          {% empty %}<p class="muted-copy">Experience details will be added soon.</p>{% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-shell" id="publications">
+      <div class="section-heading section-heading-wide">
+        <div><p class="eyebrow">04 / SCHOLARSHIP</p><h2>Selected publications</h2></div>
+        <p class="section-intro">Peer-reviewed research, collaborative scholarship, and work in progress.</p>
+      </div>
+      <div class="publication-list">
+        {% for publication in publications %}
+        <article class="publication-item">
+          <span class="publication-year">{{ publication.year }}</span>
+          <div class="publication-main">
+            <p class="publication-type">{{ publication.get_publication_type_display }}{% if publication.status %} · {{ publication.status }}{% endif %}</p>
+            <h3>{% if publication.doi_url %}<a href="{{ publication.doi_url }}" target="_blank" rel="noopener noreferrer">{{ publication.title }} <span aria-label="External link">↗</span></a>{% else %}{{ publication.title }}{% endif %}</h3>
+            <p>{{ publication.authors }}</p><p class="publication-venue">{{ publication.venue }}</p>
+          </div>
+        </article>
+        {% empty %}<p class="muted-copy">Publications will be added soon.</p>{% endfor %}
+      </div>
+    </section>
+
+    <section class="section section-muted">
+      <div class="section-shell">
+        <div class="section-heading section-heading-wide">
+          <div><p class="eyebrow">05 / TOOLKIT</p><h2>Skills &amp; tools</h2></div>
+          <p class="section-intro">A practical toolkit spanning machine learning, software, and academic work.</p>
+        </div>
+        <div class="skills-grid">
+          {% for category in skill_categories %}<article class="skill-card"><h3>{{ category.name }}</h3><div class="skill-tags">{% for skill in category.skills.all %}<span>{{ skill.name }}</span>{% endfor %}</div></article>{% empty %}<p class="muted-copy">Skills will be added soon.</p>{% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-shell">
+      <div class="section-heading section-heading-wide">
+        <div><p class="eyebrow">06 / RECOGNITION</p><h2>Awards &amp; honours</h2></div>
+      </div>
+      <div class="awards-grid">
+        {% for award in awards %}<article class="award-item"><span class="award-year">{{ award.year }}</span><h3>{{ award.title }}</h3><p>{{ award.organization }}</p>{% if award.details %}<p class="muted-copy">{{ award.details }}</p>{% endif %}</article>{% empty %}<p class="muted-copy">Awards will be added soon.</p>{% endfor %}
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="section-shell contact-inner">
+        <div><p class="eyebrow eyebrow-light">LET'S CONNECT</p><h2>Open to thoughtful<br>research conversations.</h2><p>For collaboration, student research, teaching, or academic inquiries, please get in touch.</p></div>
+        <div class="contact-actions"><a class="button button-light" href="mailto:{{ profile.email }}">Email {{ profile.email }} <span aria-hidden="true">↗</span></a>{% if profile.phone %}<a class="contact-phone" href="tel:{{ profile.phone }}">{{ profile.phone }}</a>{% endif %}</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="section-shell footer-inner"><a class="brand footer-brand" href="#home"><span class="brand-mark">MH</span><span>{{ profile.name }}</span></a><p>{{ profile.title }} · {{ profile.institution }}</p><a href="#home" class="back-top">Back to top ↑</a></div><div class="section-shell footer-bottom"><span>© {% now "Y" %} {{ profile.name }}</span><span>Designed for clarity, scholarship, and connection.</span></div></footer>
+  <script src="{% static 'portfolio/site.js' %}" defer></script>
+</body>
+</html>
