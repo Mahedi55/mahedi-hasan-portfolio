@@ -132,7 +132,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
-                ('display_order', models.PositiveSmallSmallIntegerField(default=0)),
+                ('display_order', models.PositiveSmallIntegerField(default=0)),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='skills', to='portfolio.skillcategory')),
             ],
             options={
