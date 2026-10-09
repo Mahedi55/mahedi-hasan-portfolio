@@ -131,3 +131,16 @@ h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:-.045em}
 @media(max-width:650px){.section-shell,.nav-wrap{width:min(100% - 34px,540px)}.site-header{height:68px}.menu-toggle{display:block}.site-nav{display:none;position:absolute;left:0;right:0;top:67px;background:#fff;padding:12px 20px 20px;box-shadow:0 12px 15px rgba(16,29,42,.08);align-items:stretch;gap:0}.site-nav.is-open{display:flex;flex-direction:column}.site-nav a{padding:11px 5px}.site-nav .nav-contact{border:0;padding:11px 5px}.hero{grid-template-columns:1fr;padding-block:55px 66px;gap:42px}.hero h1{font-size:clamp(3.3rem,15vw,5rem)}.hero-aside{max-width:420px;width:calc(100% - 14px)}.hero-note{right:-8px}.section{padding-block:64px}.two-column{grid-template-columns:1fr;gap:28px}.section-heading-wide{display:block}.section-heading-wide .section-intro{margin-top:14px}.project-grid,.skills-grid{grid-template-columns:1fr}.timeline-item{grid-template-columns:1fr;gap:7px;padding:22px 0}.timeline-date{font-size:.76rem}.awards-grid{grid-template-columns:1fr 1fr}.contact-inner{display:block}.contact-actions{margin-top:26px}.footer-inner{align-items:flex-start;gap:15px;flex-wrap:wrap}.footer-inner>p{order:3;width:100%}.footer-bottom{gap:8px;flex-direction:column}.education-item{display:block}.date-label{display:block;margin-top:6px}.publication-item{grid-template-columns:46px 1fr;gap:13px}}
 @media(max-width:390px){.awards-grid{grid-template-columns:1fr}.hero-actions{align-items:stretch;flex-direction:column}.button{width:100%}.project-meta{font-size:.64rem}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+
+::selection{background:#c9f3ec;color:#102431}
+:focus-visible{outline:3px solid #238e83;outline-offset:3px}
+.hero{background:radial-gradient(ellipse at 84% 44%,rgba(100,211,197,.11),transparent 33%)}
+.focus-card{background:linear-gradient(145deg,#183448 0%,#101d2a 72%);box-shadow:0 24px 60px rgba(16,29,42,.16)}
+.project-card,.skill-card{border-radius:9px;box-shadow:0 8px 25px rgba(16,29,42,.045)}
+.project-card:hover{transform:translateY(-4px);box-shadow:0 16px 35px rgba(16,29,42,.09)}
+.skill-tags span{border-radius:999px;background:#f1f8f6}
+.publication-item{padding-inline:18px;margin-inline:-18px;border-radius:8px;transition:background .18s}
+.publication-item:hover{background:#f6f9f8}
+.award-item{padding:20px;border:1px solid var(--line);border-top:2px solid #55b8ad;border-radius:0 0 8px 8px;background:linear-gradient(160deg,#fff,#f8fbfa)}
+.contact-section{background:radial-gradient(ellipse at 82% 25%,rgba(100,211,197,.12),transparent 32%),#183044}
+@media(hover:none){.button:hover,.project-card:hover{transform:none}}
